@@ -21,7 +21,7 @@ async function getDB(){
 	if(!db){
 		try{
 			await client.connect();
-			db = client.db("deskly");
+			db = client.db(process.env.DB_NAME);
 		}
 		catch(error){
 			console.log(error);
