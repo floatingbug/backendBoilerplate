@@ -1,33 +1,36 @@
-require("module-alias/register");
-require("dotenv").config();
-const express = require("express");
-const api = express();
-const http = require("http");
-const httpServer = http.createServer(api);
-const {connectDB} = require("@config/db");
-const response = require("@utils/response");
-const authRouter = require("@router/auth");
+const express = require('express');
+const helmet = require('helmet');
+const bodyParser = require('body-parser');
+const rateLimit = require('express-rate-limit');
+const { connect } = require('./src/db/mongo');
+const errorMiddleware = require('./src/middlewares/error');
+const authRoutes = require('./src/modules/auth');
+const userRoutes = require('./src/modules/user');
+const config = require('./src/config');
 
+async function start() {
+    await connect();
 
-const PORT = process.env.PORT || 3000;
-connectDB();
+    const app = express();
 
+    app.use(helmet());
+    app.use(bodyParser.json());
 
-api.use(express.json());
+    app.use(
+        rateLimit({
+            windowMs: 1 * 60 * 1000,
+            max: 100
+        })
+    );
 
-api.use("/auth", authRouter);
+    app.use('/auth', authRoutes);
+    app.use('/users', userRoutes);
 
+    app.use(errorMiddleware);
 
-api.use("/", (error, req, res, next) => {
-    console.log(error);
-    response(res, {
-        success: false,
-        code: 500,
-        errors: ["Internal Server Error."],
+    app.listen(config.port, () => {
+        console.log(`Server running on port ${config.port}`);
     });
-});
+}
 
-
-httpServer.listen(PORT, () => {
-	console.log(`HTTP-Server is running on port: ${PORT}`);
-});
+start();
