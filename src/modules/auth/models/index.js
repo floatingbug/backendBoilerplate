@@ -1,7 +1,9 @@
-const create = require('./create');
-const findByEmail = require('./findByEmail');
+const findByEmail = require("./findByEmail");
+const findByName = require("./findByName");
+const create = require("./create");
 
 module.exports = {
-    create,
-    findByEmail
+    findByEmail,
+    findByName,
+    create
 };

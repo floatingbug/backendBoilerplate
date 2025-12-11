@@ -1,0 +1,12 @@
+module.exports = {
+    global: {
+        windowMs: 60 * 1000, // 1 minute
+        max: 200,            // limit each IP to 200 requests per windowMs
+        message: 'Too many requests from this IP, please try again later.'
+    },
+    auth: {
+        windowMs: 15 * 60 * 1000, // 15 minutes
+        max: 5,                   // limit each IP to 5 requests per windowMs
+        message: 'Too many login attempts, please try again later.'
+    }
+};

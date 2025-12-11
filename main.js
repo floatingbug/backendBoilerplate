@@ -1,27 +1,29 @@
 const express = require('express');
+const config = require('./src/config');
+const cors = require("cors");
 const helmet = require('helmet');
-const bodyParser = require('body-parser');
 const rateLimit = require('express-rate-limit');
 const { connect } = require('./src/db/mongo');
 const errorMiddleware = require('./src/middlewares/error');
 const authRoutes = require('./src/modules/auth');
 const userRoutes = require('./src/modules/user');
-const config = require('./src/config');
 
 async function start() {
     await connect();
 
     const app = express();
+        
+    app.use(express.json(config.jsonConfig));
+    app.use(express.urlencoded(config.urlencodedConfig));
 
-    app.use(helmet());
-    app.use(bodyParser.json());
-
-    app.use(
-        rateLimit({
-            windowMs: 1 * 60 * 1000,
-            max: 100
-        })
-    );
+    if(config.env === "production"){
+        app.use(helmet(config.helmetConfig));
+        app.use(cors(config.corsConfig));
+        app.use(rateLimit(config.rateLimitConfig.global));
+    }
+    else{
+        app.use(cors({ origin: true }));
+    }
 
     app.use('/auth', authRoutes);
     app.use('/users', userRoutes);

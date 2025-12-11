@@ -1,11 +1,11 @@
+const logger = require('../utils/logger');
+
+
 module.exports = (err, req, res, next) => {
-    console.error(err);
+    logger.error({ err, url: req.originalUrl, method: req.method });
 
     const status = err.status || 500;
-    const message = err.message || 'Internal server error';
+    const message = err.status ? err.message : 'Internal server error';
 
-    return res.status(status).json({
-        success: false,
-        message
-    });
+    res.status(status).json({ message });
 };
