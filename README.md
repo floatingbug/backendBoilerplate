@@ -124,6 +124,55 @@ GET /users  # fetch users (example)
 * **Development**: logs to console with `pino-pretty`
 * **Production**: logs to `/logs/info.log` and `/logs/error.log`
 
+## Email Verification
+
+This boilerplate includes optional **email verification** using SMTP.
+
+### How It Works
+
+* During signup, a verification token is generated and stored on the user record.
+* An email is sent using SMTP with a verification link.
+* The user clicks the link, which calls `GET /auth/verify-email`.
+* The service verifies the token, updates the user, and marks `emailVerified: true`.
+
+### Required Environment Variables
+
+Make sure to set these in your `.env` file:
+
+```dotenv
+SMTP_HOST=your_smtp_host
+SMTP_PORT=587
+SMTP_SECURE=false
+SMTP_USER=your_smtp_username
+SMTP_PASS=your_smtp_password
+MAIL_FROM="No Reply <no-reply@example.com>"
+CLIENT_BASE_URL=http://localhost:5173
+```
+
+### File Structure
+
+```
+/src
+  /utils
+    sendVerificationEmail.js
+  /modules/auth
+    /services
+      signup.js           # generates token, sends email
+      verifyEmail.js      # verifies token and updates user
+    /controller
+      verifyEmail.js
+    /models
+      create.js           # stores emailToken + emailVerified
+```
+
+### Example Verification Link
+
+```
+https://your-frontend-domain.com/verify-email?emailToken=abc123
+```
+
+---
+
 ## Notes
 
 * Auth-specific rate limits should be applied inside `/modules/auth/index.js`
