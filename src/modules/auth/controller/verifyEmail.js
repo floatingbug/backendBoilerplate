@@ -2,7 +2,6 @@ const verifyEmail = require("../services/verifyEmail");
 const catchAsync = require("../../../utils/catchAsync");
 
 module.exports = catchAsync(async (req, res) => {
-    console.log("test");
     const {emailToken} = req.query;
 
     if (!emailToken) {

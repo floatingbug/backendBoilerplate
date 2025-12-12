@@ -1,2 +1,8 @@
 const findById = require('./findById');
-module.exports = { findById };
+const deleteUser = require("./deleteUser");
+
+
+module.exports = { 
+    findById,
+    deleteUser,
+};
