@@ -1,45 +1,53 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { promisify } = require('util');
+const crypto = require('crypto');
 const config = require('../../../config');
 const model = require('../models');
 
-// Promisify jwt.sign, damit wir await nutzen können
 const signAsync = promisify(jwt.sign);
 
 module.exports = async ({ name, email, password }) => {
-    // Prüfen, ob die E-Mail bereits existiert
     const existing = await model.findByEmail({ email });
     if (existing) {
         throw { status: 409, message: 'Email already exists' };
     }
 
-    // Passwort hashen
     const hash = await bcrypt.hash(password, config.bcryptSaltRounds);
 
-    // User in DB erstellen
-    const created = await model.create({ name, email, password: hash });
+    // Create email verification token
+    const emailToken = crypto.randomBytes(32).toString("hex");
 
-    // JWT Tokens asynchron erzeugen
+    // Create user in DB
+    const createdUser = await model.create({
+        name,
+        email,
+        password: hash,
+        emailVerified: false,
+        emailToken
+    });
+
+    // Tokens for authentication (not for email verification)
     const accessToken = await signAsync(
-        { id: created._id },
+        { id: createdUser._id },
         config.jwtAccessSecret,
         { expiresIn: config.accessTokenExpiresIn }
     );
 
     const refreshToken = await signAsync(
-        { id: created._id },
+        { id: createdUser._id },
         config.jwtRefreshSecret,
         { expiresIn: config.refreshTokenExpiresIn }
     );
 
     return {
         user: {
-            id: created._id,
-            name: created.name,
-            email: created.email
+            id: createdUser._id,
+            name: createdUser.name,
+            email: createdUser.email,
+            emailToken: createdUser.emailToken,
         },
         accessToken,
-        refreshToken
+        refreshToken,
     };
 };
