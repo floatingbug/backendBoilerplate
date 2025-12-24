@@ -12,6 +12,6 @@ module.exports = async ({ refreshToken }) => {
         return { accessToken };
     }
     catch (err) {
-        throw { status: 401, message: 'Invalid refresh token' };
+        throw { status: 401, message: 'Session expired. Please sign in again.' };
     }
 };

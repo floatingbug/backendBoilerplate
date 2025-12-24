@@ -61,7 +61,7 @@ module.exports = async ({ nameOrEmail, password }) => {
             email: user.email
         },
         accessToken,
-        refreshToken
+        refreshToken,
     };
 };
 

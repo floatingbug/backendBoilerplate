@@ -13,18 +13,18 @@ async function start() {
     await connect();
 
     const app = express();
-        
+
     app.use(express.json(config.jsonConfig));
     app.use(express.urlencoded(config.urlencodedConfig));
-    app.use(cookieParser);
+    app.use(cookieParser());
 
     if(config.env === "production"){
         app.use(helmet(config.helmetConfig));
-        app.use(cors(config.corsConfig));
+        app.use(cors(config.corsConfig.production));
         app.use(rateLimit(config.rateLimitConfig.global));
     }
     else{
-        app.use(cors({ origin: true, credentials: true }));
+        app.use(cors(config.corsConfig.develop));
     }
 
     app.use('/auth', authRoutes);
