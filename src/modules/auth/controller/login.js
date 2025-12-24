@@ -6,5 +6,14 @@ module.exports = catchAsync(async (req, res) => {
 
     const result = await service.login({ nameOrEmail, password });
 
-    return res.status(200).json(result);
+    // Set refresh token as HttpOnly cookie
+    res.cookie('refreshToken', result.refreshToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        path: '/auth/refresh',
+        maxAge: 7 * 24 * 60 * 60 * 1000, // expires in 7 days
+    });
+
+    res.status(200).json(result);
 });

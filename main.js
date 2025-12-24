@@ -5,6 +5,7 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const { connect } = require('./src/db/mongo');
 const errorMiddleware = require('./src/middlewares/error');
+const cookieParser = require("cookie-parser");
 const authRoutes = require('./src/modules/auth');
 const userRoutes = require('./src/modules/user');
 
@@ -15,6 +16,7 @@ async function start() {
         
     app.use(express.json(config.jsonConfig));
     app.use(express.urlencoded(config.urlencodedConfig));
+    app.use(cookieParser);
 
     if(config.env === "production"){
         app.use(helmet(config.helmetConfig));
@@ -22,7 +24,7 @@ async function start() {
         app.use(rateLimit(config.rateLimitConfig.global));
     }
     else{
-        app.use(cors({ origin: true }));
+        app.use(cors({ origin: true, credentials: true }));
     }
 
     app.use('/auth', authRoutes);

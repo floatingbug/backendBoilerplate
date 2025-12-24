@@ -1,6 +1,5 @@
 module.exports = (req, res, next) => {
-    let { refreshToken } = req.body;
-    refreshToken = refreshToken?.trim();
+    const refreshToken = req.cookies?.refreshToken;
 
     if (!refreshToken) {
         return res.status(400).json({ message: 'Refresh token is required' });
