@@ -36,9 +36,9 @@ module.exports = async ({ nameOrEmail, password }) => {
         throw { status: 403, message: "Please verify your email address first." };
     }
 
-    const ok = await bcrypt.compare(password, user.password);
+    const correctPassword = await bcrypt.compare(password, user.password);
 
-    if (!ok){
+    if (!correctPassword){
         throw { status: 401, message: "Invalid credentials" };
     }
 

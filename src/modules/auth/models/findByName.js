@@ -1,7 +1,7 @@
-const db = require("../../../db/mongo");
+const {getDb} = require("../../../db/mongo");
 
 
 module.exports = async ({ name }) => {
-    const collection = await db.getCollection("users");
-    return collection.findOne({ name });
+    const db = getDb();
+    return await db.collection("users").findOne({name});
 };

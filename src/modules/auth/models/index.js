@@ -3,6 +3,7 @@ const findByName = require("./findByName");
 const create = require("./create");
 const findByEmailToken = require("./findByEmailToken");
 const updateById = require("./updateById");
+const findByNameOrEmail = require("./findByNameOrEmail");
 
 module.exports = {
     findByEmail,
@@ -10,4 +11,5 @@ module.exports = {
     findByEmailToken,
     create,
     updateById,
+    findByNameOrEmail,
 };

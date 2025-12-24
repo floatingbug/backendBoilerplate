@@ -1,9 +1,14 @@
-const model = require('../models');
+const crypto = require("crypto");
+const model = require("../models");
 
-module.exports = async ({emailToken}) => {
-    const user = await model.findByEmailToken({emailToken});
+module.exports = async ({ token }) => {
+    const emailTokenHash = crypto.createHash("sha256").update(token).digest("hex");
+    const user = await model.findByEmailToken({ emailTokenHash });
+    const now = new Date();
 
-    if (!user) {
+    console.log("user: ", user);
+
+    if (!user || user.emailTokenExpiresAt < now) {
         throw { status: 400, message: "Invalid or expired verification token" };
     }
 
@@ -11,8 +16,9 @@ module.exports = async ({emailToken}) => {
         id: user._id,
         update: {
             emailVerified: true,
-            emailToken: null
-        }
+            emailTokenHash: null,
+            emailTokenExpiresAt: null,
+        },
     });
 
     return true;

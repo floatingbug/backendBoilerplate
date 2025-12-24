@@ -2,13 +2,13 @@ const verifyEmail = require("../services/verifyEmail");
 const catchAsync = require("../../../utils/catchAsync");
 
 module.exports = catchAsync(async (req, res) => {
-    const {emailToken} = req.query;
+    const {token} = req.query;
 
-    if (!emailToken) {
+    if (!token) {
         return res.status(400).json({ message: "Token is required" });
     }
 
-    await verifyEmail({emailToken});
+    await verifyEmail({token});
 
     res.json({ message: "Email verified successfully" });
 });

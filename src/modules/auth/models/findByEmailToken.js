@@ -1,7 +1,7 @@
 const { getDb } = require('../../../db/mongo');
 
 
-module.exports = async ({ emailToken }) => {
+module.exports = async ({ emailTokenHash }) => {
     const db = getDb();
-    return db.collection('users').findOne({ emailToken });
+    return db.collection('users').findOne({ emailTokenHash });
 };
