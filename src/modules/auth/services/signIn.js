@@ -64,4 +64,3 @@ module.exports = async ({ nameOrEmail, password }) => {
         refreshToken,
     };
 };
-

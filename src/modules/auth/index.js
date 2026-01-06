@@ -18,19 +18,19 @@ const resendLimiter = config.env === "production"
 
 
 router.post(
-    '/signup', 
+    '/sign-up', 
     authLimiter, 
     validateSignup, 
-    controller.signup
+    controller.signUp
 );
 router.post(
-    '/login', 
+    '/sign-in', 
     authLimiter, 
     validateLogin, 
-    controller.login
+    controller.signIn
 );
 
-router.get(
+router.post(
     '/refresh', 
     validateRefreshToken, 
     controller.refreshToken
