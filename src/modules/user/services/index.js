@@ -1,8 +1,8 @@
-const getUser = require('./getUser');
+const getUserById = require('./getUserById');
 const deleteUser = require("./deleteUser");
 
 
 module.exports = {
-    getUser,
+    getUserById,
     deleteUser,
 };

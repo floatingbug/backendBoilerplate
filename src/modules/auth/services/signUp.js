@@ -10,7 +10,7 @@ module.exports = async ({ name, email, password }) => {
     if (existing) {
         throw {
             status: 409,
-            message: "Email already exists",
+            message: "Name or e-mail already exists",
         };
     }
 

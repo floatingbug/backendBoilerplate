@@ -1,7 +1,12 @@
-const catchAsync = require('../../../utils/catchAsync');
-const service = require('../services');
+const catchAsync = require("../../../utils/catchAsync");
+const services = require("../services");
 
 module.exports = catchAsync(async (req, res) => {
-    const result = await service.getUser({ userId: req.user.id });
-    return res.json(result);
+    const {id: userId} = req.user;
+
+    const user = await services.getUserById({userId});
+
+    console.log(user);
+
+    res.json(user);
 });

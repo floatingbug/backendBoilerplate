@@ -7,6 +7,7 @@ const validateResendVerificationEmail = require("./middlewares/validateResendVer
 const rateLimit = require('express-rate-limit');
 const config = require('../../config');
 const router = Router();
+const authUser = require("../../middlewares/authUser");
 
 const authLimiter = config.env === "production"
     ? rateLimit(config.rateLimitConfig.auth)
@@ -28,6 +29,12 @@ router.post(
     authLimiter, 
     validateLogin, 
     controller.signIn
+);
+
+router.post(
+    "/sign-out",
+    authUser,
+    controller.signOut
 );
 
 router.post(
