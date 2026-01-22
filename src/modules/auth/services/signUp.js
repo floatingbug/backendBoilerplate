@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 const config = require("../../../config");
 const model = require("../models");
-const sendVerificationEmail = require("./sendVerificationEmail");
+const {sendVerificationEmail} = require("../utils");
 
 module.exports = async ({ name, email, password }) => {
     const existing = await model.findByNameOrEmail({ name, email });
@@ -33,6 +33,9 @@ module.exports = async ({ name, email, password }) => {
     const user = {
         name,
         email,
+        pendingEmail: null,
+        pendingEmailToken: null,
+        pendingEmailExpiresAt: null,
         password: passwordHash,
         emailVerified: false,
         emailTokenHash,

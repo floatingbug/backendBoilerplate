@@ -14,4 +14,19 @@ module.exports = {
         max: 3,
         message: 'Too many verification emails requested. Please check your inbox.'
     },
+    accountChange: {
+		windowMs: 15 * 60 * 1000,
+		max: 10,
+		message: "Too many account update requests. Please try again later.",
+	},
+	confirmEmail: {
+		windowMs: 15 * 60 * 1000,
+		max: 5,
+		message: "Too many email confirmation attempts. Please try again later.",
+	},
+    forgotPassword: {
+        windowMs: 15 * 60 * 1000,
+        max: 5,
+        message: "Too many password reset requests. Please try again later.",
+    },
 };

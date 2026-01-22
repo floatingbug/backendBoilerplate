@@ -1,6 +1,5 @@
 const catchAsync = require('../../../utils/catchAsync');
 const service = require('../services');
-const sendVerificationEmail = require('../services/sendVerificationEmail');
 
 module.exports = catchAsync(async (req, res) => {
     const { name, email, password } = req.body;

@@ -4,6 +4,8 @@ const refreshToken = require('./refreshToken');
 const verifyEmail = require("./verifyEmail");
 const resendVerificationEmail = require("./resendVerificationEmail");
 const signOut = require("./signOut");
+const forgotPassword = require("./forgotPassword");
+const resetPassword = require("./resetPassword");
 
 module.exports = {
     signUp,
@@ -12,4 +14,6 @@ module.exports = {
     refreshToken,
     verifyEmail,
     resendVerificationEmail,
+    forgotPassword,
+    resetPassword,
 };

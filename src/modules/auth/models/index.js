@@ -4,6 +4,9 @@ const create = require("./create");
 const findByEmailToken = require("./findByEmailToken");
 const updateById = require("./updateById");
 const findByNameOrEmail = require("./findByNameOrEmail");
+const setPasswordResetToken = require("./setPasswordResetToken");
+const findUserByPasswordResetToken = require("./findUserByPasswordResetToken");
+const resetPassword = require("./resetPassword");
 
 module.exports = {
     findByEmail,
@@ -12,4 +15,7 @@ module.exports = {
     create,
     updateById,
     findByNameOrEmail,
+    setPasswordResetToken,
+    findUserByPasswordResetToken,
+    resetPassword,
 };

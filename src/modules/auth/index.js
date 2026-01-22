@@ -17,6 +17,10 @@ const resendLimiter = config.env === "production"
     ? rateLimit(config.rateLimitConfig.emailResend)
     : (req, res, next) => next();
 
+const forgotPasswordLimiter = config.env === "production"
+    ? rateLimit(config.rateLimitConfig.forgotPassword)
+    : (req, res, next) => next();
+
 
 router.post(
     '/sign-up', 
@@ -30,13 +34,11 @@ router.post(
     validateLogin, 
     controller.signIn
 );
-
 router.post(
     "/sign-out",
     authUser,
     controller.signOut
 );
-
 router.post(
     '/refresh', 
     validateRefreshToken, 
@@ -52,6 +54,16 @@ router.post(
     validateResendVerificationEmail, 
     controller.resendVerificationEmail
 );
+router.post(
+    "/forgot-password",
+    forgotPasswordLimiter,
+    controller.forgotPassword
+);
+router.post(
+    "/reset-password",
+    controller.resetPassword
+);
+
 
 
 module.exports = router;

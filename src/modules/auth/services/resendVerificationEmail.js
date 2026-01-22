@@ -1,6 +1,6 @@
 const crypto = require("crypto");
 const models = require("../models");
-const sendVerificationEmail = require("./sendVerificationEmail");
+const {sendVerificationEmail} = require("../utils");
 
 module.exports = async ({ email }) => {
     const user = await models.findByEmail({ email });

@@ -8,6 +8,7 @@ const errorMiddleware = require('./src/middlewares/error');
 const cookieParser = require("cookie-parser");
 const authRoutes = require('./src/modules/auth');
 const userRoutes = require('./src/modules/user');
+const accountRoutes = require("./src/modules/account");
 
 async function start() {
     await connect();
@@ -29,6 +30,7 @@ async function start() {
 
     app.use('/auth', authRoutes);
     app.use('/users', userRoutes);
+    app.use('/account', accountRoutes);
 
     app.use(errorMiddleware);
 

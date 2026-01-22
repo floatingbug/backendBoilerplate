@@ -2,6 +2,8 @@ const dotenv = require('dotenv');
 const helmetConfig = require("./helmetConfig");
 const rateLimitConfig = require("./rateLimitConfig");
 const corsConfig = require("./corsConfig");
+const coolDownConfig = require("./coolDownConfig");
+const authConfig = require("./authConfig");
 
 dotenv.config();
 
@@ -43,4 +45,6 @@ module.exports = {
     helmetConfig,
     rateLimitConfig,
     corsConfig,
+    coolDownConfig,
+    authConfig,
 };

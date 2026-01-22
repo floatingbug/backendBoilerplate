@@ -2,9 +2,10 @@ const catchAsync = require("../../../utils/catchAsync");
 const services = require("../services");
 
 module.exports = catchAsync(async (req, res) => {
-    const {id: userId} = req.user;
+    const userId = req.user.id;
+    const changes = req.body;
 
-    const user = await services.getUserById({userId});
+    const result = await services.updateAccount({userId, changes});
 
-    res.json(user);
+    res.json(result);
 });
