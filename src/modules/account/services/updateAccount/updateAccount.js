@@ -1,5 +1,7 @@
 const models = require("../../models");
 const changeEmail = require("./changeEmail");
+const bcrypt = require("bcrypt");
+const config = require("../../../../config");
 
 
 module.exports = async ({userId, changes}) => {
@@ -37,8 +39,13 @@ module.exports = async ({userId, changes}) => {
     }
 
     if(changes.password){
+        const passwordHash = await bcrypt.hash(
+            changes.password,
+            config.bcryptSaltRounds
+        );
+
         const updatePasswordResult = await models.updatePassword({
-            newPassword: changes.password,
+            newPassword: passwordHash,
             userId,
         });
 

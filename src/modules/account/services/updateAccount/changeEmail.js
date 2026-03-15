@@ -53,13 +53,13 @@ module.exports = async ({userId, email}) => {
     }
 
     await sendVerificationEmail({
-        email,
+        email: user.email,
         token: rawToken,
     });
 
     return {
         success: true,
-        message: "Confirmation for the new email has been sent to the new email address.",
+        message: "Confirmation for the new email has been sent.",
     };
 }
 
